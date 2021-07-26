@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="images/favicon.png" type="image/png">
+	<title>Sản phẩm tại Hồng Nhi family care</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<link rel="stylesheet" type="text/css" href="css/mobile.css">
+    <style type="text/css">
+      .tabs{padding-top:0.5em;}
+      #body div{margin: 0 auto;	max-width: 960px;	padding: 0;}
+			#body .container .row .view-sp{padding-top:1em; padding-right: 0.2em;}
+      .card-title{margin-bottom: 0;}
+      .card-text{font-size: 85%;margin-top: 0;margin-bottom: 0}
+      .order{font-size: 70%}
+    </style>
+	<script src="js/mobile.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="page">
+		<div id="header">
+            <div>
+                <a href="index.html" class="logo"><img src="images/hongnhi-logo.png" alt=""></a>
+                <ul id="navigation">
+                    <li>
+                        <a href="index.html">Trang chủ</a>
+                    </li>
+                    <li class="menu">
+                        <a href="index.html#about">Giới thiệu</a>
+                    </li>
+                    <li class="menu selected">
+                        <a href="product.html">Sản phẩm</a>
+                    </li>
+                    <li class="menu">
+                        <a href="contact.html">Hệ thống cửa hàng</a>
+                    </li>
+                </ul>
+            </div>
+		</div>
+		<div id="body">
+			<div class="header">
+				<div>
+					<h1>Sản phẩm</h1>
+				</div>
+			</div>
+			<div class="container">
+        <div id="slt-dm" class="row">
+          <div class="col-sm view-sp">
+            <select class="form-control" id="sltDanhMuc">
+              <option value="">--- Danh mục ---</option>
+            </select>
+          </div>
+          <div class="col-sm view-sp"></div>
+          <div class="col-sm view-sp">
+            <input type="text" class="form-control" id="txtSearch" name="txtSearch" placeholder="Tìm kiếm">
+          </div>
+        </div>
+        <div id="loading" style="height: 15em;">Xin hãy đợi...</div>
+				<div id="sp" class="row">
+				</div>
+			</div>
+		</div>
+		<div id="footer" include-footer="footer.html">
+		</div>
+	</div>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/menu.js"></script>
+    <script type="text/javascript">
+      function findByTextContent(needle, haystack, precise) {
+        // needle: String, the string to be found within the elements.
+        // haystack: String, a selector to be passed to document.querySelectorAll(),
+        //           NodeList, Array - to be iterated over within the function:
+        // precise: Boolean, true - searches for that precise string, surrounded by
+        //                          word-breaks,
+        //                   false - searches for the string occurring anywhere
+        var elems;
+
+        // no haystack we quit here, to avoid having to search
+        // the entire document:
+        if (!haystack) {
+          return false;
+        }
+        // if haystack is a string, we pass it to document.querySelectorAll(),
+        // and turn the results into an Array:
+        else if ('string' == typeof haystack) {
+          elems = [].slice.call(document.querySelectorAll(haystack), 0);
+        }
+        // if haystack has a length property, we convert it to an Array
+        // (if it's already an array, this is pointless, but not harmful):
+        else if (haystack.length) {
+          elems = [].slice.call(haystack, 0);
+        }
+
+        // work out whether we're looking at innerText (IE), or textContent 
+        // (in most other browsers)
+        var textProp = 'textContent' in document ? 'textContent' : 'innerText',
+          // creating a regex depending on whether we want a precise match, or not:
+          reg = precise === true ? new RegExp('\\b' + needle + '\\b') : new RegExp(needle),
+          // iterating over the elems array:
+          found = elems.filter(function(el) {
+            // returning the elements in which the text is, or includes,
+            // the needle to be found:
+            return reg.test(el[textProp]);
+          });
+        return found.length ? found : false;;
+      }
+    	$(document).ready(function(){
+		  includeFooter();
+          function remove_duplicates_safe(arr) {
+              var seen = {};
+              var ret_arr = [];
+              for (var i = 0; i < arr.length; i++) {
+                  if (!(arr[i] in seen)) {
+                      ret_arr.push(arr[i]);
+                      seen[arr[i]] = true;
+                  }
+              }
+              return ret_arr;
+
+          }
+          function view_sp(data){
+          	img_src = data[9].trim() == "" ? "images/hongnhi-web.png" : data[9].split(" ")[0];
+            markup = `
+              <div class="col-sm-3 view-sp div-search-sp">
+                <img class="card-img-top" src=${img_src} alt="${data[3]}">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">${data[3]}</h5>
+                    <p class="card-text">Giá: ${data[5].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
+                    <div class="div-search" style="display:none">${data[3].toLowerCase()}</div>
+                    <div class="div-danh-muc" style="display:none">${data[1]}</div>
+                    <a href="https://m.me/HongNhiHangNoiDia" target="_blank" class="badge badge-warning">Mua qua FB</a>
+                    <a href="https://zalo.me/0908899262" target="_blank" class="badge badge-warning">Mua qua Zalo</a>
+                  </div>
+                </div>
+              </div>
+            `;
+            return markup;
+          }
+          $.getJSON('https://script.google.com/macros/s/AKfycby1ntZ8ZliM5VY85cTQhcTNwuh4V6CJT0v_kwamjmxkrxUm19k/exec', function(data) {
+            $('#loading').hide();
+              // JSON result in `data` variable
+              data.shift();
+              var dm = [];
+              for (var i=0; i<data.length; i++){
+                dm.push(data[i][1]);
+                document.getElementById("sp").innerHTML += view_sp(data[i]);
+              }
+              dm = remove_duplicates_safe(dm);
+
+              for (var i=0; i<dm.length; i++){
+                my_option = document.createElement("option");
+                my_option.setAttribute("value", dm[i]);
+                txt = document.createTextNode(dm[i]);
+                my_option.appendChild(txt);
+                document.getElementById("sltDanhMuc").appendChild(my_option);
+              }
+          });
+          document.getElementById('sltDanhMuc').addEventListener('change',function(){
+            var txt = document.getElementById('sltDanhMuc').value;
+            //console.log(txt);
+            if (txt !== ''){
+              document.querySelectorAll('.div-danh-muc').forEach(function(elem){
+                elem.parentNode.parentNode.parentNode.style.display = 'none';
+              });
+              findByTextContent(txt, '.div-danh-muc').forEach(function(elem){
+                elem.parentNode.parentNode.parentNode.style.display = '';
+              });
+            } else{
+              document.querySelectorAll('.div-danh-muc').forEach(function(elem){
+                elem.parentNode.parentNode.parentNode.style.display = '';
+              });
+            }
+          });
+          document.getElementById('txtSearch').addEventListener('change',function(){
+            var txt = document.getElementById('txtSearch').value.trim().toLowerCase();
+            if (txt !== ''){
+              document.querySelectorAll('.div-search').forEach(function(elem){
+                elem.parentNode.parentNode.parentNode.style.display = 'none';
+              });
+              findByTextContent(txt, '.div-search').forEach(function(elem){
+                elem.parentNode.parentNode.parentNode.style.display = '';
+              });
+            } else{
+              document.querySelectorAll('.div-search').forEach(function(elem){
+                elem.parentNode.parentNode.parentNode.style.display = '';
+              });
+            }
+          });
+
+		})
+    </script>
+</body>
+</html>
