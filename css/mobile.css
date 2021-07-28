@@ -19,7 +19,7 @@
 	#header div {
 		max-width: none;
 		overflow: hidden;
-		padding: 90px 0 13%;
+		padding: 10px 0 5%;
 		width: 100%;
 	}
 	#header div a.logo {
@@ -33,7 +33,7 @@
 		display: block;
 		margin: 0 auto;
 		padding: 0;
-		width: 50%;
+		/*width: 50%;*/
 	}
 	#header span#mobile-navigation {
 		background: transparent url(../images/mobile/mobile-menu.png) no-repeat;
@@ -43,7 +43,7 @@
 		padding: 0 0 0 0;
 		position: absolute;
 		right: 6%;
-		top: 20px;
+		top: 10px;
 		width: 50px;
 		z-index: 999;
 	}
