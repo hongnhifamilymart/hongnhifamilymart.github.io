@@ -123,7 +123,7 @@
 
           }
           function view_sp(data){
-          	img_src = data[9].trim() == "" ? "images/hongnhi-web.png" : data[9].split(" ")[0];
+          	img_src = data[9] == "" ? "images/hongnhi-web.png" : data[9].split(" ")[0];
             markup = `
               <div class="col-sm-3 view-sp div-search-sp">
                 <img class="card-img-top" src=${img_src} alt="${data[3]}">
