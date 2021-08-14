@@ -839,10 +839,10 @@ img {
 	width: 160px;
 }
 #body.contact div.body {
-	background: url(../images/map.jpg) no-repeat center top #b5aaad;
+	background: url(../images/map.png) repeat center top #b5aaad;
 	margin: 0;
 	max-width: none;
-	padding: 0;
+	padding: 0 0 10px 0;
 	width: 100%;
 }
 #body.contact div.body div {
@@ -855,7 +855,7 @@ img {
 	background: url(../images/bg-transparent.png) repeat;
 	margin: 0 auto;
 	overflow: hidden;
-	padding: 30px 0 35px 133px;
+	padding: 15px 0 25px 133px;
 	width: 747px;
 }
 #body.contact div.body div div img {
