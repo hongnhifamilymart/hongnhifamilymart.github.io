@@ -36,7 +36,7 @@
 					<h1>Hệ thống cửa hàng</h1>
 				</div>
 			</div>
-			<div class="body">
+			<div id="ds" class="body">
 				<div>
 					<div>
 						<img src="images/check-in.png" alt="">
@@ -57,6 +57,26 @@
     	$(document).ready(function(){
 		  includeFooter();
 		})
+          function view_ctv(data){
+            markup = `
+            	<div>
+					<div>
+						<img src="images/check-in.png" alt="">
+						<h1>${data[0]}</h1>
+						<p>${data[1]}</p>
+						<p>Điện thoại: ${data[2]}</p>
+					</div>
+				</div>
+            `;
+            return markup;
+          }
+          //lay san pham
+          $.getJSON('https://script.google.com/macros/s/AKfycbxxPRBDjqjK3SBAjNQqVT7qjKFz9HlDTIS1Y7GbTtuF5NV_4xPZ/exec', function(data) {
+          		data.shift();
+	            for (var i=0; i<data.length; i++){
+	                document.getElementById("ds").innerHTML += view_ctv(data[i]);
+	            }
+          });
     </script>
 </body>
 </html>

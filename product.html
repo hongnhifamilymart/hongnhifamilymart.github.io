@@ -134,25 +134,6 @@
               return ret_arr;
 
           }
-          function view_sp_dau(data){
-            img_src = data[9] == "" ? "images/hongnhi-web.png" : data[9].split(" ")[0];
-            markup = `
-              <div class="col-sm-3 view-sp div-search-sp">
-                <img class="card-img-top" src=${img_src} alt="${data[3]}">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">${data[3]}</h5>
-                    <p class="card-text">Giá: ${data[5].toLocaleString('it-IT', {style : 'currency', currency : 'VND'})}</p>
-                    <div class="div-search" style="display:none">${data[3].toLowerCase()}</div>
-                    <div class="div-danh-muc" style="display:none">${data[1]}</div>
-                    <a href="https://m.me/HongNhiHangNoiDia" target="_blank" class="badge badge-warning">Mua qua FB</a>
-                    <a href="https://zalo.me/0386873513" target="_blank" class="badge badge-warning">Mua qua Zalo</a>
-                  </div>
-                </div>
-              </div>
-            `;
-            return markup;
-          }
           function view_sp(data){
           	img_src = data[9] == "" ? "images/hongnhi-web.png" : data[9].split(" ")[0];
             markup = `
@@ -198,7 +179,10 @@
               }
           });
           function filter_element(arr, txt){
-            return arr.filter(check_element(txt));
+            if (txt === '')
+              return arr;
+            else
+              return arr.filter(check_element(txt));
           }
           function check_element(txt){
             return function(element){
